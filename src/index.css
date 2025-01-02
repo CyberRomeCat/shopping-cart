@@ -92,6 +92,49 @@ button:focus-visible {
   align-content: center;
 }
 
+.main-selected-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
 .content {
+  text-align: center;
+}
+
+.all-product-list {
+  justify-self: center;
+  align-self: center;
+  height: 80%;
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.main-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  padding-bottom: 2rem;
+  width: 80%;
+}
+
+.filter-option {
+  padding-right: 3rem;
+}
+
+.pl-detail-row {
+  display: flex;
+  justify-content: space-between;
+  background-color: aliceblue;
+}
+
+.price {
+  padding-top: 0.5rem;
+}
+
+.product-name {
   text-align: center;
 }
