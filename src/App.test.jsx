@@ -1,34 +1,38 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import App from './App';
-import { expect } from 'vitest';
-import userEvent from '@testing-library/user-event';
+import { beforeEach, expect } from 'vitest';
 
-describe('Home Page', () => {
-  it('renders Home Page', () => {
+describe('Product Page', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn();
+  });
+
+  it('renders Product Page', () => {
     const { container } = render(<App />);
     expect(container).toMatchSnapshot();
   });
 
-  it('category page is rendered to the screen', async () => {
-    const user = userEvent.setup();
+  it('render product list when API responds'),
+    async () => {
+      const mockProducts = [
+        {
+          id: 4,
+          name: 'Handmade Fresh Table',
+        },
+      ];
 
-    render(<App />);
-    const button = screen.getByRole('button', { name: 'Shop here' });
+      jest.spyOn(global, 'fetch').mockimplementationOnce(() => {
+        Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(mockProducts),
+        });
+      });
 
-    await user.click(button);
+      render(<App />);
 
-    expect(screen.findByText('CATEGORY')).toBeInTheDocument();
-  });
+      await screen.findByText('Handmade Fresh Table');
 
-  it('shopping cart page is rendered to the screen', async () => {
-    const user = userEvent.setup();
-
-    render(<App />);
-    const link = screen.getByRole('a', { name: 'Shopping cart' });
-
-    await user.click(link);
-
-    expect(screen.findByText('SHOPPING CART')).toBeInTheDocument();
-  });
+      expect(global.fetch).toHaveBeenCalledOnce();
+    };
 });
