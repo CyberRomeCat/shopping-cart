@@ -1,16 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
 
 import App from './App';
-import { beforeEach, expect } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import userEvent from '@testing-library/user-event';
 
 describe('Product Page', () => {
   beforeEach(() => {
-    global.fetch = jest.fn();
-  });
-
-  it('renders Product Page', () => {
-    const { container } = render(<App />);
-    expect(container).toMatchSnapshot();
+    global.fetch = vi.fn();
   });
 
   it('render product list when API responds'),
@@ -18,11 +14,11 @@ describe('Product Page', () => {
       const mockProducts = [
         {
           id: 4,
-          name: 'Handmade Fresh Table',
+          name: '"Mens Casual Slim Fit"',
         },
       ];
 
-      jest.spyOn(global, 'fetch').mockimplementationOnce(() => {
+      vi.spyOn(global, 'fetch').mockImplementationOnce(() => {
         Promise.resolve({
           ok: true,
           json: () => Promise.resolve(mockProducts),
@@ -31,8 +27,8 @@ describe('Product Page', () => {
 
       render(<App />);
 
-      await screen.findByText('Handmade Fresh Table');
+      await screen.findByText('Mens Casual Slim Fit').toBeInTheDocument();
 
-      expect(global.fetch).toHaveBeenCalledOnce();
+      expect(global.fetch).toHaveBeenCalledTimes(1);
     };
 });

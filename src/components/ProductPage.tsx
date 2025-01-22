@@ -1,16 +1,18 @@
-const SelectedPage = ({ name }: { name: string }) => {
+import { useEffect, useState } from 'react';
+
+const ProductPage = () => {
   return (
-    <div className="main-selected-page">
-      <MainHeaderRow nameTitle={name} />
+    <div className="main-product-page">
+      <MainHeaderRow />
       <AllProductList />
     </div>
   );
 };
 
-const MainHeaderRow = ({ nameTitle }: { nameTitle: string }) => {
+const MainHeaderRow = () => {
   return (
     <div className="main-header-row">
-      <div className="selected-page-name">{nameTitle}</div>
+      <div className="product-page-name">{'All Products'}</div>
       <FilterOption />
     </div>
   );
@@ -25,29 +27,64 @@ const FilterOption = () => {
 };
 
 const AllProductList = () => {
+  const [data, setData] = useState<
+    { id: number; image: string; title: string; price: number }[]
+  >([]);
+
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products')
+      .then((res) => res.json())
+      .then((json) => {
+        setData(json);
+      })
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
+
   return (
     <div className="all-product-list">
-      <ProductList />
-      <ProductList />
-      <ProductList />
-      <ProductList />
-      <ProductList />
-      <ProductList />
+      {data.map((item) => {
+        if (item.id > 9) {
+          return null;
+        }
+
+        return (
+          <ProductList
+            key={item.id}
+            img={item.image}
+            title={item.title}
+            price={item.price}
+          />
+        );
+      })}
     </div>
   );
 };
 
-const ProductList = () => {
+const ProductList = ({
+  title,
+  img,
+  price,
+}: {
+  title: string;
+  img: string;
+  price: number;
+}) => {
   return (
     <div className="product-list">
-      <img src="" className="product-image" height={200} width={400} />
-      <div className="product-name">Dress</div>
+      <img
+        src={img}
+        className="product-image"
+        height={200}
+        width={400}
+        alt={title}
+      />
+      <div className="product-name">{title}</div>
       <div className="pl-detail-row">
-        <div className="price">15$</div>
+        <div className="price">${price}</div>
         <button className="add-to-cart-btn">Add to Cart</button>
       </div>
     </div>
   );
 };
 
-export default SelectedPage;
+export default ProductPage;
