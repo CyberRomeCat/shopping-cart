@@ -1,7 +1,13 @@
-import HomePage from './components/Homepage';
+import ProductPage from './components/ProductPage';
+import Header from './components/Header';
 
 const App = () => {
-  return <HomePage />;
+  return (
+    <>
+      <Header />
+      <ProductPage />
+    </>
+  );
 };
 
 export default App;
