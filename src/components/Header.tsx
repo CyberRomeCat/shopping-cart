@@ -12,12 +12,17 @@ const Header = () => {
 };
 
 const NavigationBar = () => {
-  const { shoppingCartItems } = useContext(ShopContext);
+  const { shoppingCartItems, setShowCart, showCart } = useContext(ShopContext);
   return (
     <div className="navigation-bar">
       <a>Menu</a>
       <a>Shop</a>
-      <a>
+      <a
+        onClick={() => {
+          if (showCart) return setShowCart(false);
+          return setShowCart(true);
+        }}
+      >
         <img src={shoppingcart} />
       </a>
       <div className="number of items">{shoppingCartItems.length}</div>;
