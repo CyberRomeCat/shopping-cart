@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import { ShopContext } from '../App';
+
 const Shoppingcart = () => {
   return (
     <div className="shopping-cart-slide">
@@ -18,24 +21,24 @@ const ShoppingCartHeader = () => {
 };
 
 const AllItems = () => {
+  const { shoppingCartItems } = useContext(ShopContext);
   return (
     <div className="all-items">
-      <Item />
-      <Item />
-      <Item />
-      <Item />
+      {shoppingCartItems.map((item) => {
+        return <Item name={item.title} price={item.price} />;
+      })}
     </div>
   );
 };
 
-const Item = () => {
+const Item = ({ name, price }: { name: string; price: number }) => {
   return (
     <div className="item">
       <img src="" className="item-img" height={80} width={150} />
       <div className="info-and-quantity">
         <div className="item-info">
-          <div className="item-name">Dress</div>
-          <div className="item-price">15$</div>
+          <div className="item-name">{name}</div>
+          <div className="item-price">{price}</div>
         </div>
         <div className="item-quantity">
           <button>+</button>
