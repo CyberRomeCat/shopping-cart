@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { ShopContext } from '../App';
 
 const ProductPage = () => {
   return (
@@ -12,7 +14,7 @@ const ProductPage = () => {
 const MainHeaderRow = () => {
   return (
     <div className="main-header-row">
-      <div className="product-page-name">{'All Products'}</div>
+      <div className="product-page-name">All Products</div>
       <FilterOption />
     </div>
   );
@@ -81,9 +83,53 @@ const ProductList = ({
       <div className="product-name">{title}</div>
       <div className="pl-detail-row">
         <div className="price">${price}</div>
-        <button className="add-to-cart-btn">Add to Cart</button>
+        <ATCButton title={title} price={price} />
       </div>
     </div>
+  );
+};
+
+const ATCButton = ({ title, price }: { title: string; price: number }) => {
+  const { setShoppingCartItems, shoppingCartItems } = useContext(ShopContext);
+
+  function addSingleItem() {
+    setShoppingCartItems((prevItems) => [
+      ...prevItems,
+      { title: title, price: price },
+    ]);
+  }
+
+  function removeSingleItem() {
+    const arr = [...shoppingCartItems];
+    const index = arr.findIndex((i) => i.title == title);
+    if (index !== -1) {
+      arr.splice(index, 1);
+      setShoppingCartItems(arr);
+    }
+  }
+
+  function checkDuplicate() {
+    const allItems = shoppingCartItems;
+    return allItems.filter((i) => i.title == title).length;
+  }
+
+  const itemCount = checkDuplicate();
+
+  return (
+    <>
+      {itemCount > 0 ? (
+        <div>
+          <button onClick={() => addSingleItem()}>+</button>
+          <>{itemCount}</>
+          <button onClick={() => removeSingleItem()}>-</button>
+        </div>
+      ) : (
+        <button onClick={() => addSingleItem()} className="add-to-cart-btn">
+          {' '}
+          Add To Cart
+        </button>
+      )}
+    </>
   );
 };
 

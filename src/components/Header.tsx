@@ -1,4 +1,6 @@
 import shoppingcart from '../assets/shoppingcart.svg';
+import { useContext } from 'react';
+import { ShopContext } from '../App';
 
 const Header = () => {
   return (
@@ -10,6 +12,7 @@ const Header = () => {
 };
 
 const NavigationBar = () => {
+  const { shoppingCartItems } = useContext(ShopContext);
   return (
     <div className="navigation-bar">
       <a>Menu</a>
@@ -17,7 +20,7 @@ const NavigationBar = () => {
       <a>
         <img src={shoppingcart} />
       </a>
-      <div className="number of items">{0}</div>;
+      <div className="number of items">{shoppingCartItems.length}</div>;
     </div>
   );
 };
