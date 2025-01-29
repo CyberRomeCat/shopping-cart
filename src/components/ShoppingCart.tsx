@@ -67,7 +67,14 @@ const AllCosts = () => {
         <div>TOTAL</div>
         <div>200.99$$</div>
       </div>
-      <button className="checkout">CHECKOUT!</button>
+      <button
+        className="checkout"
+        onClick={() => {
+          alert('This is a fake shopping cart for a personal project!');
+        }}
+      >
+        CHECKOUT!
+      </button>
     </div>
   );
 };
