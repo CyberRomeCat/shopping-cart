@@ -20,18 +20,50 @@ const ShoppingCartHeader = () => {
   );
 };
 
+interface Item {
+  title: string;
+  price: number;
+  quantity: number;
+}
+
 const AllItems = () => {
   const { shoppingCartItems } = useContext(ShopContext);
+
+  const uniqueItems = shoppingCartItems.reduce<Record<string, Item>>(
+    (acc, item) => {
+      if (acc[item.title]) {
+        acc[item.title].quantity += 1;
+      } else {
+        acc[item.title] = { ...item, quantity: 1 };
+      }
+      return acc;
+    },
+    {}
+  );
+
   return (
     <div className="all-items">
-      {shoppingCartItems.map((item) => {
-        return <Item name={item.title} price={item.price} />;
-      })}
+      {Object.values(uniqueItems).map((item: Item) => (
+        <Item
+          key={item.title}
+          name={item.title}
+          price={item.price}
+          quantity={item.quantity}
+        />
+      ))}
     </div>
   );
 };
 
-const Item = ({ name, price }: { name: string; price: number }) => {
+const Item = ({
+  name,
+  price,
+  quantity,
+}: {
+  name: string;
+  price: number;
+  quantity: number;
+}) => {
   return (
     <div className="item">
       <img src="" className="item-img" height={80} width={150} />
@@ -42,7 +74,7 @@ const Item = ({ name, price }: { name: string; price: number }) => {
         </div>
         <div className="item-quantity">
           <button>+</button>
-          <div>1</div>
+          <div>{quantity}</div>
           <button>-</button>
         </div>
       </div>
