@@ -52,6 +52,12 @@ const AllItems = () => {
 };
 
 const Item = ({ name, price }: { name: string; price: number }) => {
+  const { setShoppingCartItems, shoppingCartItems } = useContext(ShopContext);
+  function deleteItem() {
+    const allItems = shoppingCartItems;
+    const newItems = allItems.filter((i) => i.title !== name);
+    setShoppingCartItems(newItems);
+  }
   return (
     <div className="item">
       <img src="" className="item-img" height={80} width={150} />
@@ -64,7 +70,9 @@ const Item = ({ name, price }: { name: string; price: number }) => {
           <ATCButton title={name} price={price} />
         </div>
       </div>
-      <div className="trash">trash</div>
+      <button onClick={() => deleteItem()} className="trash">
+        trash
+      </button>
     </div>
   );
 };
