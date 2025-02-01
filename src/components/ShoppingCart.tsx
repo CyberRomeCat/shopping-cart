@@ -78,11 +78,23 @@ const Item = ({ name, price }: { name: string; price: number }) => {
 };
 
 const AllCosts = () => {
+  const { shoppingCartItems } = useContext(ShopContext);
+  const sum = () => {
+    const allprices: number[] = [];
+    shoppingCartItems.forEach((i) => {
+      allprices.push(i.price);
+    });
+    const sumSubTotal = allprices.reduce((a, c) => a + c, 0);
+    const sumTotal = allprices.reduce((a, c) => a + c, 0.99);
+    const subtotal = Math.round(sumSubTotal * 100) / 100;
+    const total = Math.round(sumTotal * 100) / 100;
+    return { subtotal, total };
+  };
   return (
     <div className="allcosts">
       <div className="subtotal">
         <div>SUBTOTAL</div>
-        <div>200$</div>
+        <div>{sum().subtotal}$</div>
       </div>
       <div className="shipping">
         <div>shipping</div>
@@ -91,7 +103,7 @@ const AllCosts = () => {
       <div className="line"></div>
       <div className="total">
         <div>TOTAL</div>
-        <div>200.99$$</div>
+        <div>{sum().total}$</div>
       </div>
       <button
         className="checkout"
