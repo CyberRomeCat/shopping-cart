@@ -89,7 +89,13 @@ const ProductList = ({
   );
 };
 
-const ATCButton = ({ title, price }: { title: string; price: number }) => {
+export const ATCButton = ({
+  title,
+  price,
+}: {
+  title: string;
+  price: number;
+}) => {
   const { setShoppingCartItems, shoppingCartItems } = useContext(ShopContext);
 
   function addSingleItem() {

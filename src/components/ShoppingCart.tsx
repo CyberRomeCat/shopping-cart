@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { ShopContext } from '../App';
+import { ATCButton } from './ProductPage';
 
 const Shoppingcart = () => {
   return (
@@ -44,26 +45,13 @@ const AllItems = () => {
   return (
     <div className="all-items">
       {Object.values(uniqueItems).map((item: Item) => (
-        <Item
-          key={item.title}
-          name={item.title}
-          price={item.price}
-          quantity={item.quantity}
-        />
+        <Item key={item.title} name={item.title} price={item.price} />
       ))}
     </div>
   );
 };
 
-const Item = ({
-  name,
-  price,
-  quantity,
-}: {
-  name: string;
-  price: number;
-  quantity: number;
-}) => {
+const Item = ({ name, price }: { name: string; price: number }) => {
   return (
     <div className="item">
       <img src="" className="item-img" height={80} width={150} />
@@ -73,9 +61,7 @@ const Item = ({
           <div className="item-price">{price}</div>
         </div>
         <div className="item-quantity">
-          <button>+</button>
-          <div>{quantity}</div>
-          <button>-</button>
+          <ATCButton title={name} price={price} />
         </div>
       </div>
       <div className="trash">trash</div>
