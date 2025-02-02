@@ -100,7 +100,7 @@ button:focus-visible {
   text-align: center;
 }
 
-/** selectedpage */
+/** product page */
 
 .main-selected-page {
   display: flex;
@@ -131,6 +131,18 @@ button:focus-visible {
   padding-right: 3rem;
 }
 
+.dropdown {
+  width: 100%;
+  position: absolute;
+  z-index: 999;
+  display: block;
+  flex-direction: column;
+}
+
+.dropdown > li {
+  list-style: none;
+}
+
 .pl-detail-row {
   display: flex;
   justify-content: space-between;
@@ -143,6 +155,15 @@ button:focus-visible {
 
 .product-name {
   text-align: center;
+}
+
+.product-rating {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rate {
+  background: yellow;
 }
 
 /** shoppingcart */
@@ -209,18 +230,4 @@ button:focus-visible {
 .line {
   height: 1px;
   background-color: black;
-}
-
-/** Filter Option*/
-
-.dropdown {
-  width: 100%;
-  position: absolute;
-  z-index: 999;
-  display: block;
-  flex-direction: column;
-}
-
-.dropdown > li {
-  list-style: none;
 }

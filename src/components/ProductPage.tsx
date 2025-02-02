@@ -85,7 +85,13 @@ const DropDownSort = ({
 
 const AllProductList = () => {
   const [data, setData] = useState<
-    { id: number; image: string; title: string; price: number }[]
+    {
+      rating: { rate: number; count: number };
+      id: number;
+      image: string;
+      title: string;
+      price: number;
+    }[]
   >([]);
 
   useEffect(() => {
@@ -110,6 +116,8 @@ const AllProductList = () => {
             img={item.image}
             title={item.title}
             price={item.price}
+            rate={item.rating.rate}
+            count={item.rating.count}
           />
         );
       })}
@@ -121,10 +129,14 @@ const ProductList = ({
   title,
   img,
   price,
+  rate,
+  count,
 }: {
   title: string;
   img: string;
   price: number;
+  rate: number;
+  count: number;
 }) => {
   return (
     <div className="product-list">
@@ -136,6 +148,10 @@ const ProductList = ({
         alt={title}
       />
       <div className="product-name">{title}</div>
+      <div className="product-rating">
+        <div className="rate">{rate}</div>
+        <div className="counting">{count}</div>
+      </div>
       <div className="pl-detail-row">
         <div className="price">${price}</div>
         <ATCButton title={title} price={price} />
