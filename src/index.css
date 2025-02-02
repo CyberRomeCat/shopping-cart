@@ -210,3 +210,17 @@ button:focus-visible {
   height: 1px;
   background-color: black;
 }
+
+/** Filter Option*/
+
+.dropdown {
+  width: 100%;
+  position: absolute;
+  z-index: 999;
+  display: block;
+  flex-direction: column;
+}
+
+.dropdown > li {
+  list-style: none;
+}

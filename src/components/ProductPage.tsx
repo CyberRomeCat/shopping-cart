@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { ShopContext } from '../App';
 
@@ -21,10 +21,65 @@ const MainHeaderRow = () => {
 };
 
 const FilterOption = () => {
+  const [sort, setSort] = useState({ showSort: false, sortBy: 'popular' });
   return (
     <div className="filter-option">
-      Sort By:<button>Popular</button>
+      <a>Sort By:</a>
+      {sort.showSort ? (
+        <DropDownSort setShowSort={setSort} />
+      ) : (
+        <div
+          onClick={() => {
+            if (sort.showSort) return setSort({ ...sort, showSort: false });
+            setSort({ ...sort, showSort: true });
+          }}
+        >
+          {sort.sortBy}
+        </div>
+      )}
     </div>
+  );
+};
+
+const DropDownSort = ({
+  setShowSort,
+}: {
+  setShowSort: Dispatch<SetStateAction<{ showSort: boolean; sortBy: string }>>;
+}) => {
+  return (
+    <ul className="dropdown">
+      <li>
+        {' '}
+        <a
+          href="#"
+          onClick={() => {
+            setShowSort({ showSort: false, sortBy: 'Popular' });
+          }}
+        >
+          Popular
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          onClick={() => {
+            setShowSort({ showSort: false, sortBy: 'Expensive' });
+          }}
+        >
+          Expensive
+        </a>
+      </li>
+      <li>
+        <a
+          onClick={() => {
+            setShowSort({ showSort: false, sortBy: 'Lowest' });
+          }}
+          href="#"
+        >
+          Lowest
+        </a>
+      </li>
+    </ul>
   );
 };
 
