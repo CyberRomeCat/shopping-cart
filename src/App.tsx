@@ -6,6 +6,8 @@ import Shoppingcart from './components/ShoppingCart';
 type ItemType = {
   title: string;
   price: number;
+  rate: number;
+  count: number;
 };
 
 type ShopContextType = {

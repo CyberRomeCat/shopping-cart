@@ -3,25 +3,35 @@ import { useContext } from 'react';
 import { ShopContext } from '../App';
 
 const ProductPage = () => {
+  const [sort, setSort] = useState({ showSort: false, sortBy: 'Popular' });
   return (
     <div className="main-product-page">
-      <MainHeaderRow />
-      <AllProductList />
+      <MainHeaderRow sort={sort} setSort={setSort} />
+      <AllProductList sort={sort} />
     </div>
   );
 };
 
-const MainHeaderRow = () => {
+type sortType = {
+  showSort: boolean;
+  sortBy: string;
+};
+
+type sortPropType = {
+  sort: sortType;
+  setSort: React.Dispatch<React.SetStateAction<sortType>>;
+};
+
+const MainHeaderRow: React.FC<sortPropType> = ({ sort, setSort }) => {
   return (
     <div className="main-header-row">
       <div className="product-page-name">All Products</div>
-      <FilterOption />
+      <FilterOption sort={sort} setSort={setSort} />
     </div>
   );
 };
 
-const FilterOption = () => {
-  const [sort, setSort] = useState({ showSort: false, sortBy: 'popular' });
+const FilterOption: React.FC<sortPropType> = ({ sort, setSort }) => {
   return (
     <div className="filter-option">
       <a>Sort By:</a>
@@ -83,7 +93,11 @@ const DropDownSort = ({
   );
 };
 
-const AllProductList = () => {
+const AllProductList = ({
+  sort,
+}: {
+  sort: { showSort: boolean; sortBy: string };
+}) => {
   const [data, setData] = useState<
     {
       rating: { rate: number; count: number };
@@ -98,10 +112,28 @@ const AllProductList = () => {
     fetch('https://fakestoreapi.com/products')
       .then((res) => res.json())
       .then((json) => {
-        setData(json);
+        if (sort.sortBy == 'Popular') {
+          const popular = json.sort(
+            (
+              a: { rating: { rate: number } },
+              b: { rating: { rate: number } }
+            ) => b.rating.rate - a.rating.rate
+          );
+          setData(popular);
+        } else if (sort.sortBy == 'Expensive') {
+          const expensive = json.sort(
+            (a: { price: number }, b: { price: number }) => b.price - a.price
+          );
+          setData(expensive);
+        } else if (sort.sortBy == 'Lowest') {
+          const lowest = json.sort(
+            (a: { price: number }, b: { price: number }) => a.price - b.price
+          );
+          setData(lowest);
+        }
       })
       .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+  }, [sort.sortBy]);
 
   return (
     <div className="all-product-list">
@@ -154,7 +186,7 @@ const ProductList = ({
       </div>
       <div className="pl-detail-row">
         <div className="price">${price}</div>
-        <ATCButton title={title} price={price} />
+        <ATCButton title={title} price={price} rate={rate} count={count} />
       </div>
     </div>
   );
@@ -163,16 +195,20 @@ const ProductList = ({
 export const ATCButton = ({
   title,
   price,
+  rate,
+  count,
 }: {
   title: string;
   price: number;
+  rate: number;
+  count: number;
 }) => {
   const { setShoppingCartItems, shoppingCartItems } = useContext(ShopContext);
 
   function addSingleItem() {
     setShoppingCartItems((prevItems) => [
       ...prevItems,
-      { title: title, price: price },
+      { title: title, price: price, rate: rate, count: count },
     ]);
   }
 

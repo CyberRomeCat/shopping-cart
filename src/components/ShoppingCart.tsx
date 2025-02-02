@@ -25,6 +25,8 @@ interface Item {
   title: string;
   price: number;
   quantity: number;
+  rate: number;
+  count: number;
 }
 
 const AllItems = () => {
@@ -45,13 +47,29 @@ const AllItems = () => {
   return (
     <div className="all-items">
       {Object.values(uniqueItems).map((item: Item) => (
-        <Item key={item.title} name={item.title} price={item.price} />
+        <Item
+          key={item.title}
+          name={item.title}
+          price={item.price}
+          rate={item.rate}
+          count={item.count}
+        />
       ))}
     </div>
   );
 };
 
-const Item = ({ name, price }: { name: string; price: number }) => {
+const Item = ({
+  name,
+  price,
+  rate,
+  count,
+}: {
+  name: string;
+  price: number;
+  rate: number;
+  count: number;
+}) => {
   const { setShoppingCartItems, shoppingCartItems } = useContext(ShopContext);
   function deleteItem() {
     const allItems = shoppingCartItems;
@@ -64,10 +82,14 @@ const Item = ({ name, price }: { name: string; price: number }) => {
       <div className="info-and-quantity">
         <div className="item-info">
           <div className="item-name">{name}</div>
+          <div className="item-rating">
+            <div className="rating">{rate}</div>
+            <div className="count">{count}</div>
+          </div>
           <div className="item-price">{price}</div>
         </div>
         <div className="item-quantity">
-          <ATCButton title={name} price={price} />
+          <ATCButton title={name} price={price} rate={rate} count={count} />
         </div>
       </div>
       <button onClick={() => deleteItem()} className="trash">
