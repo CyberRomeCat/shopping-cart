@@ -1,7 +1,9 @@
-import ProductPage from './components/ProductPage';
 import Header from './components/Header';
 import React, { createContext, useState } from 'react';
 import Shoppingcart from './components/ShoppingCart';
+import HomePage from './components/Homepage';
+import { useParams } from 'react-router-dom';
+import ProductPage from './components/ProductPage';
 
 type ItemType = {
   title: string;
@@ -28,13 +30,15 @@ export const ShopContext = createContext<ShopContextType>({
 const App = () => {
   const [shoppingCartItems, setShoppingCartItems] = useState<ItemType[]>([]);
   const [showCart, setShowCart] = useState<boolean>(false);
+  const { page } = useParams();
+  console.log(page);
 
   return (
     <ShopContext.Provider
       value={{ shoppingCartItems, setShoppingCartItems, setShowCart, showCart }}
     >
       <Header />
-      <ProductPage />
+      {page === 'shop' ? <ProductPage /> : <HomePage />}
       {showCart ? <Shoppingcart /> : <></>}
     </ShopContext.Provider>
   );

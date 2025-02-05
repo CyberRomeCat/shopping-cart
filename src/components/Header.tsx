@@ -1,6 +1,7 @@
 import shoppingcart from '../assets/shoppingcart.svg';
 import { useContext } from 'react';
 import { ShopContext } from '../App';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -15,8 +16,8 @@ const NavigationBar = () => {
   const { shoppingCartItems, setShowCart, showCart } = useContext(ShopContext);
   return (
     <div className="navigation-bar">
-      <a>Menu</a>
-      <a>Shop</a>
+      <Link to="/home">Home</Link>
+      <Link to="/shop">Shop</Link>
       <a
         onClick={() => {
           if (showCart) return setShowCart(false);
