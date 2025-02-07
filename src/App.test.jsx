@@ -59,4 +59,21 @@ describe('Product Page', () => {
       expect(screen.getByText(/'+'/i));
       expect(screen.getByText(/'-'/i));
     };
+
+  it('no. of items in cart increments when clicking quantity add btn'),
+    async () => {
+      const user = userEvent.setup();
+
+      render(<App />);
+
+      const button = screen.getByRole('button', { name: 'Add To Cart' });
+
+      await user.click(button);
+
+      const incrementBtn = screen.getByRole('button', { name: '+' });
+
+      await user.click(incrementBtn);
+
+      expect(expect(screen.getByRole('itemCount').textContent).toMatch(/2/i));
+    };
 });
