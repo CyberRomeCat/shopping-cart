@@ -76,4 +76,21 @@ describe('Product Page', () => {
 
       expect(expect(screen.getByRole('itemCount').textContent).toMatch(/2/i));
     };
+
+  it('no. of items in cart decrements when clicking quantity remove btn'),
+    async () => {
+      const user = userEvent.setup();
+
+      render(<App />);
+
+      const button = screen.getByRole('button', { name: 'Add To Cart' });
+
+      await user.click(button);
+
+      const incrementBtn = screen.getByRole('button', { name: '-' });
+
+      await user.click(incrementBtn);
+
+      expect(expect(screen.getByRole('itemCount').textContent).toMatch(/0/i));
+    };
 });
