@@ -45,4 +45,18 @@ describe('Product Page', () => {
 
       expect(screen.getByRole('itemCount').textContent).toMatch(/1/i);
     };
+
+  it('renders quantity btns when clicking ATC btn'),
+    async () => {
+      const user = userEvent.setup();
+
+      render(<App />);
+
+      const button = screen.getByRole('button', { name: 'Add To Cart' });
+
+      await user.click(button);
+
+      expect(screen.getByText(/'+'/i));
+      expect(screen.getByText(/'-'/i));
+    };
 });
