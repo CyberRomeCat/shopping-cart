@@ -93,4 +93,17 @@ describe('Product Page', () => {
 
       expect(expect(screen.getByRole('itemCount').textContent).toMatch(/0/i));
     };
+
+  it('renders shopping cart page when clicking cart svg'),
+    async () => {
+      const user = userEvent.setup();
+
+      render(<App />);
+
+      const cartLink = screen.getByRole('shoppingcart');
+
+      await user.click(cartLink);
+
+      expect(screen.getByText('Shopping Cart'));
+    };
 });
